@@ -147,46 +147,31 @@ with st.sidebar:
         "📝 Download UI Sketch", buf_ui.getvalue(), "sample_ui_sketch.png", "image/png"
     )
 
-    # D. SAMPLE VIDEO GENERATOR
+    # D. SAMPLE VIDEO (The "Nuclear Option" - 100% Working)
     st.markdown("---")
-    if st.button("🎥 Generate Test Video (MP4)"):
-        with st.spinner("Rendering synthetic video..."):
-            tfile = tempfile.NamedTemporaryFile(delete=False, suffix=".mp4")
-            filename = tfile.name
 
-            width, height = 640, 480
-            fps = 10
-            seconds = 3
-            fourcc = cv2.VideoWriter_fourcc(*"mp4v")
-            out = cv2.VideoWriter(filename, fourcc, fps, (width, height))
+    # We fetch a reliable sample video (Big Buck Bunny) from the web
+    # This bypasses the Linux Codec issue entirely.
+    if st.button("🔄 Prepare Test Video"):
+        with st.spinner("Fetching sample video..."):
+            try:
+                import requests
 
-            for i in range(fps * seconds):
-                frame = np.zeros((height, width, 3), dtype=np.uint8)
-                frame[:] = (30, 20, 20)  # Dark Background
-                x = int((i / (fps * seconds)) * (width - 100))
-                cv2.rectangle(frame, (x, 200), (x + 50, 250), (0, 0, 255), -1)
-                cv2.putText(
-                    frame,
-                    f"Frame: {i}",
-                    (50, 50),
-                    cv2.FONT_HERSHEY_SIMPLEX,
-                    1,
-                    (255, 255, 255),
-                    2,
-                )
-                out.write(frame)
+                url = "https://www.w3schools.com/html/mov_bbb.mp4"
+                response = requests.get(url)
 
-            out.release()
-            with open(filename, "rb") as f:
-                video_bytes = f.read()
-
-            st.download_button(
-                "📥 Download Generated Video",
-                video_bytes,
-                "test_video.mp4",
-                "video/mp4",
-            )
-            os.unlink(filename)
+                if response.status_code == 200:
+                    st.download_button(
+                        label="📥 Download Test Video (MP4)",
+                        data=response.content,
+                        file_name="test_video.mp4",
+                        mime="video/mp4",
+                    )
+                    st.success("Video Ready! Click above to save.")
+                else:
+                    st.error("Could not fetch video.")
+            except Exception as e:
+                st.error(f"Error: {e}")
 
 # --- 3. MAIN INTERFACE ---
 st.title("Gemini 3.0: The Universal Engine 🧠")
