@@ -11,6 +11,7 @@ import cv2
 import numpy as np
 import tempfile
 import os
+import requests  # <--- THIS WAS MISSING. I ADDED IT NOW.
 
 # --- 1. CONFIGURATION & CSS POLISH ---
 st.set_page_config(
@@ -59,15 +60,12 @@ st.markdown(
 )
 
 # ⚠️ SECURITY: Safe Key Retrieval
-# This try-except block prevents the "StreamlitSecretNotFoundError" crash
-# when running locally without a secrets.toml file.
 try:
     if "GEMINI_API_KEY" in st.secrets:
         DEFAULT_API_KEY = st.secrets["GEMINI_API_KEY"]
     else:
         DEFAULT_API_KEY = ""
 except Exception:
-    # If we are local and no secrets file exists, just default to empty.
     DEFAULT_API_KEY = ""
 
 # --- 2. SIDEBAR: CONTROL DECK ---
@@ -79,7 +77,7 @@ with st.sidebar:
 
     st.markdown("### 🎛️ System Control")
 
-    # API Key Box (Auto-filled if deployed, Empty if local)
+    # API Key Box
     api_key = st.text_input(
         "API Key (Security Clearance)", value=DEFAULT_API_KEY, type="password"
     )
@@ -170,6 +168,7 @@ with st.sidebar:
                     st.error("Could not fetch video from web.")
             except Exception as e:
                 st.error(f"Error: {e}")
+
 # --- 3. MAIN INTERFACE ---
 st.title("Gemini 3.0: The Universal Engine 🧠")
 st.markdown("### *Drop data, images, VIDEO, or ask questions. The engine adapts.*")
