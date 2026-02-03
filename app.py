@@ -157,7 +157,7 @@ with st.sidebar:
             width, height = 640, 480
             fps = 10
             seconds = 3
-            fourcc = cv2.VideoWriter_fourcc(*"avc1")
+            fourcc = cv2.VideoWriter_fourcc(*"mp4v")
             out = cv2.VideoWriter(filename, fourcc, fps, (width, height))
 
             for i in range(fps * seconds):
