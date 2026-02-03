@@ -147,16 +147,14 @@ with st.sidebar:
         "📝 Download UI Sketch", buf_ui.getvalue(), "sample_ui_sketch.png", "image/png"
     )
 
-    # D. SAMPLE VIDEO (The "Nuclear Option" - 100% Working)
+    # D. SAMPLE VIDEO (THE FIX: DIRECT DOWNLOAD PROXY)
     st.markdown("---")
+    st.caption("Video Source: Web Proxy")
 
-    # We fetch a reliable sample video (Big Buck Bunny) from the web
-    # This bypasses the Linux Codec issue entirely.
     if st.button("🔄 Prepare Test Video"):
-        with st.spinner("Fetching sample video..."):
+        with st.spinner("Fetching sample video from web..."):
             try:
-                import requests
-
+                # Direct link to a small MP4 file
                 url = "https://www.w3schools.com/html/mov_bbb.mp4"
                 response = requests.get(url)
 
@@ -167,12 +165,11 @@ with st.sidebar:
                         file_name="test_video.mp4",
                         mime="video/mp4",
                     )
-                    st.success("Video Ready! Click above to save.")
+                    st.success("Video Ready! Click 'Download Test Video' above.")
                 else:
-                    st.error("Could not fetch video.")
+                    st.error("Could not fetch video from web.")
             except Exception as e:
                 st.error(f"Error: {e}")
-
 # --- 3. MAIN INTERFACE ---
 st.title("Gemini 3.0: The Universal Engine 🧠")
 st.markdown("### *Drop data, images, VIDEO, or ask questions. The engine adapts.*")
