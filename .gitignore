@@ -1,10 +1,28 @@
-# Ignore the virtual environment
+# Virtual environments
 .venv/
 venv/
+env/
 
-# Ignore compiled python files
+# Python
 __pycache__/
 *.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
 
-# Mac Garbage
+# OS
 .DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+
+# App artifacts
+temp_video.mp4
+*.db
+!data.csv
+
+# Streamlit
+.streamlit/secrets.toml
